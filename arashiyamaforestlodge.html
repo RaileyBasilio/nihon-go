@@ -143,54 +143,55 @@
         <section>
             <h3 class="section-title">Book This Hotel</h3>
             <div class="booking-box border">
-                <form action="" method="POST">
+                <form id="bookingform" action="create_payment_intent.php" method="POST">
 
                     <div class="mb-3">
                         <label class="form-label">Region</label>
-                        <input type="text" class="form-control" value="Kansai" readonly required>
+                        <input type="text" class="form-control" name="REGION" value="Kansai" readonly required>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">City</label>
-                        <input type="text" class="form-control" value="Kyoto" readonly required>
+                        <input type="text" class="form-control" name="CITY" value="Kyoto" readonly required>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Hotel</label>
-                        <input type="text" class="form-control" value="Arashiyama Forest Lodge" readonly required>
+                        <input type="text" class="form-control" name="HOTEL" value="Arashiyama Forest Lodge" readonly
+                            required>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Your Name</label>
-                        <input type="text" class="form-control" placeholder="Enter your full name" maxlength="100"
-                            required>
+                        <input type="text" class="form-control" name="FULL_NAME" placeholder="Enter your full name"
+                            maxlength="100" required>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Your Email</label>
-                        <input type="email" class="form-control" placeholder="Enter your email" maxlength="100"
-                            required>
+                        <input type="email" class="form-control" name="EMAIL" placeholder="Enter your email"
+                            maxlength="100" required>
                     </div>
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Check-in Date</label>
-                            <input type="date" class="form-control" required>
+                            <input type="date" class="form-control" name="CHECK_IN" required>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Check-out Date</label>
-                            <input type="date" class="form-control" required>
+                            <input type="date" class="form-control" name="CHECK_OUT" required>
                         </div>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Number of Guests</label>
-                        <input type="number" class="form-control" min="1" required>
+                        <input type="number" class="form-control" name="GUESTS" min="1" required>
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Price per Night</label>
-                        <input type="text" class="form-control" value="₱6,200" readonly required>
+                        <label class="form-label">Price per Night in Philippine Peso</label>
+                        <input type="number" class="form-control" name="PRICE_PER_NIGHT" value=7200 readonly required>
                     </div>
 
                     <button type="submit" class="btn btn-danger">Book Now</button>
