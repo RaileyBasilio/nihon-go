@@ -33,14 +33,23 @@ $CHECK_OUT = $_POST['CHECK_OUT'];
 $GUESTS = $_POST['GUESTS'];
 $PRICE_PER_NIGHT = $_POST['PRICE_PER_NIGHT'];
 
-$sql = "INSERT INTO BOOKINGS(REGION, CITY, HOTEL, FULL_NAME, EMAIL, CHECK_IN, CHECK_OUT, GUESTS, PRICE_PER_NIGHT, BOOKING_DATE)
-        VALUES ('$REGION', '$CITY', '$HOTEL', '$FULL_NAME', '$EMAIL', '$CHECK_IN', '$CHECK_OUT', $GUESTS, $PRICE_PER_NIGHT, GETDATE())";
+// uniqid(): https://www.php.net/manual/en/function.uniqid.php
+// mt_rand(): https://www.php.net/manual/en/function.mt-rand.php
+//  md5(): https://www.php.net/manual/en/function.md5.php
+// substr(): https://www.php.net/manual/en/function.substr.php
+// strtoupper(): https://www.php.net/manual/en/function.strtoupper.php
+$BOOKING_REF = "BK-" . strtoupper(substr(md5(uniqid(mt_rand(), true)), 0, 8));
+
+$checkInDate  = new DateTime($CHECK_IN);
+$checkOutDate = new DateTime($CHECK_OUT);
+$NUMBER_OF_NIGHTS = $checkInDate->diff($checkOutDate)->days;
+
+$TOTAL_AMOUNT = $NUMBER_OF_NIGHTS * $PRICE_PER_NIGHT;
+
+$sql = "INSERT INTO BOOKINGS(REGION, CITY, HOTEL, FULL_NAME, EMAIL, CHECK_IN, CHECK_OUT, GUESTS, TOTAL_AMOUNT, BOOKING_REF, BOOKING_DATE)
+        VALUES ('$REGION', '$CITY', '$HOTEL', '$FULL_NAME', '$EMAIL', '$CHECK_IN', '$CHECK_OUT', '$GUESTS', '$TOTAL_AMOUNT', '$BOOKING_REF', GETDATE())";
 
 $result = sqlsrv_query($conn, $sql);
-
-
-
-
 
 if ($result) {
     $mail = new PHPMailer(true);
@@ -59,18 +68,21 @@ if ($result) {
 
         $mail->isHTML(true);
         $mail->Subject = "Booking Confirmation: $HOTEL";
-        $mail->Body    = "
+        $mail->Body = "
             <h2>Booking Confirmed!</h2>
             <p>Dear $FULL_NAME,</p>
             <p>Your booking at <strong>$HOTEL</strong> has been confirmed.</p>
             <ul>
+                <li><strong>Booking Reference:</strong> $BOOKING_REF</li>
                 <li>Region: $REGION</li>
                 <li>City: $CITY</li>
-                <li>Room(s): $GUESTS guest(s)</li>
+                <li>Guest(s): $GUESTS</li>
                 <li>Check-in: $CHECK_IN</li>
                 <li>Check-out: $CHECK_OUT</li>
-                <li>Price per Night: Php $PRICE_PER_NIGHT</li>
+                <li>Number of Nights: $NUMBER_OF_NIGHTS</li>
+                <li><strong>Total Amount: Php $TOTAL_AMOUNT</strong></li>
             </ul>
+            <p>Please keep your booking reference for verification.</p>
             <p>Thank you for booking with Nihon-GO!</p>
         ";
 
@@ -143,17 +155,6 @@ if ($result) {
             <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
-            <div class="collapse navbar-collapse" id="navMenu">
-                <ul class="navbar-nav ms-auto align-items-center">
-                    <li class="nav-item">
-                        <a class="nav-link nav-box text-dark" href="homepage.html">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link nav-box text-dark" href="destinations.html">Pick your destination</a>
-                    </li>
-                </ul>
-            </div>
         </div>
     </nav>
 
@@ -175,7 +176,7 @@ if ($result) {
                             <li class="list-group-item"><strong>Guest(s):</strong> <?php echo $GUESTS; ?></li>
                             <li class="list-group-item"><strong>Check-in:</strong> <?php echo $CHECK_IN; ?></li>
                             <li class="list-group-item"><strong>Check-out:</strong> <?php echo $CHECK_OUT; ?></li>
-                            <li class="list-group-item"><strong>Price per Night:</strong> Php <?php echo $PRICE_PER_NIGHT; ?></li>
+                            <li class="list-group-item"><strong>Total Amount:</strong> Php <?php echo $TOTAL_AMOUNT; ?></li>
                         </ul>
                         <p>A confirmation email has been sent to <strong><?php echo ($EMAIL); ?></strong>.</p>
                         <a href="homepage.html" class="btn btn-danger btn-home">Return to Home</a>
