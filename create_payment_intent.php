@@ -212,7 +212,7 @@ if($GUESTS > $maxGuests){
 
 
 
-
+// Bawal paatras yung check-in and check-out
 
 // https://www.php.net/manual/en/datetime.construct.php
 $checkInDate  = new DateTime($CHECK_IN);
