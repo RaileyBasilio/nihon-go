@@ -20,6 +20,7 @@ if ($conn === false) {
 $REGION = $_POST['REGION'];
 $CITY = $_POST['CITY'];
 $HOTEL = $_POST['HOTEL'];
+$ROOM_TYPE = $_POST['ROOM_TYPE'];
 $FULL_NAME = $_POST['FULL_NAME'];
 $EMAIL = $_POST['EMAIL'];
 $CHECK_IN = $_POST['CHECK_IN'];
@@ -30,7 +31,7 @@ $PRICE_PER_NIGHT = $_POST['PRICE_PER_NIGHT'];
 
 
 
-
+// CHECK DUPLICATE DATES
 $checkSql = " SELECT * FROM BOOKINGS WHERE EMAIL = '$EMAIL' AND CHECK_IN = '$CHECK_IN' AND CHECK_OUT = '$CHECK_OUT' ";
 
 $checkResult = sqlsrv_query($conn, $checkSql);
@@ -100,6 +101,99 @@ if (sqlsrv_fetch_array($checkResult)) {
                         <h2 class="fw-bold text-danger mb-3">Duplicate Booking Detected</h2>
                         <p>You already have a booking for these dates.</p>
                         <p>Please choose different dates or review your existing booking.</p>
+                        <p>This booking was automatically cancelled.</p>
+                        <a href="homepage.html" class="btn btn-danger btn-home">Return to Home</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="bg-dark text-light text-center p-3">
+            <p class="mb-1">2025 Japan Travel Booking</p>
+            <p class="mb-0">School project only</p>
+        </footer>
+
+        </body>
+        </html>
+    ');
+}
+
+
+
+
+// ROOM CAPACITY BLOCK
+if ($ROOM_TYPE == "Suite") {
+    $maxGuests = 7;
+} elseif ($ROOM_TYPE == "Family") {
+    $maxGuests = 6;
+} elseif ($ROOM_TYPE == "Budget Friendly") {
+    $maxGuests = 2;
+} else {
+    $maxGuests = 0;
+}
+
+if($GUESTS > $maxGuests){
+    die('
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Duplicate Booking</title>
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+            <style>
+                body { font-family: Arial, sans-serif; }
+                .hero-section {
+                    background: url("home.jpg") center/cover no-repeat;
+                    height: 250px;
+                    display: flex;
+                    align-items: center;
+                    color: white;
+                    padding-left: 30px;
+                }
+                .hero-title {
+                    background: rgba(0,0,0,0.5);
+                    padding: 15px 20px;
+                    border-radius: 6px;
+                }
+                .confirmation-box {
+                    background-color: #ffffff;
+                    padding: 25px;
+                    border-radius: 8px;
+                    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+                    margin-top: -50px;
+                }
+                .btn-home { margin-top: 20px; }
+                .navbar { background-color: #e63946 !important; }
+                .nav-box {
+                    background-color: #ffffff;
+                    padding: 6px 12px;
+                    border-radius: 8px;
+                    margin-right: 8px;
+                }
+            </style>
+        </head>
+
+        <body>
+
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand fw-bold nav-box" href="homepage.html">日本 nihon-GO</a>
+            </div>
+        </nav>
+
+        <section class="hero-section mb-4">
+            <h1 class="hero-title fw-bold">Booking Error</h1>
+        </section>
+
+        <main class="container mb-5">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="confirmation-box text-center">
+                        <h2 class="fw-bold text-danger mb-3">Guest count exceeds room capacity.</h2>
+                        <p>The selected room cannot accommodate '.$GUESTS.' guests.</p>
+                        <p>Please select a different room.</p>
+                        <p>This booking was automatically cancelled.</p>
                         <a href="homepage.html" class="btn btn-danger btn-home">Return to Home</a>
                     </div>
                 </div>
@@ -123,6 +217,76 @@ if (sqlsrv_fetch_array($checkResult)) {
 // https://www.php.net/manual/en/datetime.construct.php
 $checkInDate  = new DateTime($CHECK_IN);
 $checkOutDate = new DateTime($CHECK_OUT);
+
+if ($checkOutDate <= $checkInDate) {
+    die('
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Booking Error</title>
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+            <style>
+                body { font-family: Arial, sans-serif; }
+                .hero-section {
+                    background: url("home.jpg") center/cover no-repeat;
+                    height: 250px;
+                    display: flex;
+                    align-items: center;
+                    color: white;
+                    padding-left: 30px;
+                }
+                .hero-title {
+                    background: rgba(0,0,0,0.5);
+                    padding: 15px 20px;
+                    border-radius: 6px;
+                }
+                .confirmation-box {
+                    background-color: #ffffff;
+                    padding: 25px;
+                    border-radius: 8px;
+                    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+                    margin-top: -50px;
+                }
+                .btn-home { margin-top: 20px; }
+                .navbar { background-color: #e63946 !important; }
+                .nav-box {
+                    background-color: #ffffff;
+                    padding: 6px 12px;
+                    border-radius: 8px;
+                    margin-right: 8px;
+                }
+            </style>
+        </head>
+        <body>
+            <nav class="navbar navbar-expand-lg">
+                <div class="container">
+                    <a class="navbar-brand fw-bold nav-box" href="homepage.html">日本 nihon-GO</a>
+                </div>
+            </nav>
+            <section class="hero-section mb-4">
+                <h1 class="hero-title fw-bold">Booking Error</h1>
+            </section>
+            <main class="container mb-5">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="confirmation-box text-center">
+                            <h2 class="fw-bold text-danger mb-3">Invalid Dates</h2>
+                            <p>Check-out date must be after check-in date.</p>
+                            <a href="homepage.html" class="btn btn-danger btn-home">Return to Home</a>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <footer class="bg-dark text-light text-center p-3">
+                <p class="mb-1">2025 Japan Travel Booking</p>
+                <p class="mb-0">School project only</p>
+            </footer>
+        </body>
+        </html>
+    ');
+}
 
 // https://www.php.net/manual/en/datetime.diff.php
 $days = $checkOutDate->diff($checkInDate)->days;
@@ -171,6 +335,7 @@ try {
             <input type="hidden" name="REGION" value="<?php echo $REGION; ?>">
             <input type="hidden" name="CITY" value="<?php echo $CITY; ?>">
             <input type="hidden" name="HOTEL" value="<?php echo $HOTEL; ?>">
+            <input type="hidden" name="ROOM_TYPE" value="<?php echo $ROOM_TYPE; ?>">
             <input type="hidden" name="FULL_NAME" value="<?php echo $FULL_NAME; ?>">
             <input type="hidden" name="EMAIL" value="<?php echo $EMAIL; ?>">
             <input type="hidden" name="CHECK_IN" value="<?php echo $CHECK_IN; ?>">

@@ -26,6 +26,7 @@ if ($conn === false) {
 $REGION = $_POST['REGION'];
 $CITY = $_POST['CITY'];
 $HOTEL = $_POST['HOTEL'];
+$ROOM_TYPE = $_POST['ROOM_TYPE'];
 $FULL_NAME = $_POST['FULL_NAME'];
 $EMAIL = $_POST['EMAIL'];
 $CHECK_IN = $_POST['CHECK_IN'];
@@ -46,8 +47,8 @@ $NUMBER_OF_NIGHTS = $checkInDate->diff($checkOutDate)->days;
 
 $TOTAL_AMOUNT = $NUMBER_OF_NIGHTS * $PRICE_PER_NIGHT;
 
-$sql = "INSERT INTO BOOKINGS(REGION, CITY, HOTEL, FULL_NAME, EMAIL, CHECK_IN, CHECK_OUT, GUESTS, TOTAL_AMOUNT, BOOKING_REF, BOOKING_DATE)
-        VALUES ('$REGION', '$CITY', '$HOTEL', '$FULL_NAME', '$EMAIL', '$CHECK_IN', '$CHECK_OUT', '$GUESTS', '$TOTAL_AMOUNT', '$BOOKING_REF', GETDATE())";
+$sql = "INSERT INTO BOOKINGS(REGION, CITY, HOTEL, ROOM_TYPE, FULL_NAME, EMAIL, CHECK_IN, CHECK_OUT, GUESTS, TOTAL_AMOUNT, BOOKING_REF, BOOKING_DATE)
+        VALUES ('$REGION', '$CITY', '$HOTEL', '$ROOM_TYPE', '$FULL_NAME', '$EMAIL', '$CHECK_IN', '$CHECK_OUT', '$GUESTS', '$TOTAL_AMOUNT', '$BOOKING_REF', GETDATE())";
 
 $result = sqlsrv_query($conn, $sql);
 
@@ -183,7 +184,7 @@ if ($result) {
                     <?php else: ?>
                         <h2 class="fw-bold text-danger mb-3">Booking Failed</h2>
                         <p>Sorry, something went wrong with your booking.</p>
-                        <a href="shinjukuskylinehotel.html" class="btn btn-danger btn-home">Try Again</a>
+                        <a href="homepage.html" class="btn btn-danger btn-home">Return to Home</a>
                     <?php endif; ?>
                 </div>
             </div>
