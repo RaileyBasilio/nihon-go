@@ -86,7 +86,7 @@ if (sqlsrv_fetch_array($checkResult)) {
 
         <nav class="navbar navbar-expand-lg">
             <div class="container">
-                <a class="navbar-brand fw-bold nav-box" href="homepage.html">日本 nihon-GO</a>
+                <a class="navbar-brand fw-bold nav-box" href="#">日本 nihon-GO</a>
             </div>
         </nav>
 
@@ -178,7 +178,7 @@ if($GUESTS > $maxGuests){
 
         <nav class="navbar navbar-expand-lg">
             <div class="container">
-                <a class="navbar-brand fw-bold nav-box" href="homepage.html">日本 nihon-GO</a>
+                <a class="navbar-brand fw-bold nav-box" href="#">日本 nihon-GO</a>
             </div>
         </nav>
 
@@ -262,7 +262,7 @@ if ($checkOutDate <= $checkInDate) {
         <body>
             <nav class="navbar navbar-expand-lg">
                 <div class="container">
-                    <a class="navbar-brand fw-bold nav-box" href="homepage.html">日本 nihon-GO</a>
+                    <a class="navbar-brand fw-bold nav-box" href="#">日本 nihon-GO</a>
                 </div>
             </nav>
             <section class="hero-section mb-4">
@@ -316,48 +316,119 @@ try {
 
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Booking Payment - <?php echo $HOTEL; ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .hero-section {
+            background: url("home.jpg") center/cover no-repeat;
+            height: 250px;
+            display: flex;
+            align-items: center;
+            color: white;
+            padding-left: 30px;
+        }
+
+        .hero-title {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px 20px;
+            border-radius: 6px;
+        }
+
+        .payment-box {
+            background-color: #ffffff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-top: -50px;
+        }
+
+        .btn-home {
+            margin-top: 20px;
+        }
+
+        .navbar {
+            background-color: #e63946 !important;
+        }
+
+        .nav-box {
+            background-color: #ffffff;
+            padding: 6px 12px;
+            border-radius: 8px;
+            margin-right: 8px;
+        }
+
+        #card-element {
+            padding: 10px;
+            min-height: 50px;
+        }
+    </style>
 </head>
 
 <body>
-    <div class="container mt-5">
-        <h1>Complete Your Booking Payment</h1>
-        <h4><?php echo $HOTEL; ?> - <?php echo $CITY; ?></h4>
-        <p>Guest: <?php echo $FULL_NAME; ?></p>
-        <p>Total Amount: ₱<?php echo number_format($PRICE_PER_NIGHT * $days, 2); ?> for <?php echo $days; ?> night(s)</p>
 
-        <form id="paymentForm">
-            <input type="hidden" name="REGION" value="<?php echo $REGION; ?>">
-            <input type="hidden" name="CITY" value="<?php echo $CITY; ?>">
-            <input type="hidden" name="HOTEL" value="<?php echo $HOTEL; ?>">
-            <input type="hidden" name="ROOM_TYPE" value="<?php echo $ROOM_TYPE; ?>">
-            <input type="hidden" name="FULL_NAME" value="<?php echo $FULL_NAME; ?>">
-            <input type="hidden" name="EMAIL" value="<?php echo $EMAIL; ?>">
-            <input type="hidden" name="CHECK_IN" value="<?php echo $CHECK_IN; ?>">
-            <input type="hidden" name="CHECK_OUT" value="<?php echo $CHECK_OUT; ?>">
-            <input type="hidden" name="GUESTS" value="<?php echo $GUESTS; ?>">
-            <input type="hidden" name="PRICE_PER_NIGHT" value="<?php echo $PRICE_PER_NIGHT; ?>">
-            <input type="hidden" id="clientSecret" value="<?php echo $paymentIntent->client_secret; ?>">
+    <nav class="navbar navbar-expand-lg" style="background-color: #ff3333;">
+        <div class="container">
+            <a class="navbar-brand fw-bold nav-box my-1" href="#">日本 nihon-GO</a>
 
-            <div id="card-element" class="form-control mb-3" style="padding: 10px; min-height: 50px;"></div>
-            <div id="card-errors" class="text-danger mb-3" role="alert"></div>
+        </div>
+    </nav>
 
-            <button type="submit" class="btn btn-success">Confirm Payment</button>
-            <a href="javascript:history.back()" class="btn btn-secondary">Cancel</a>
-        </form>
-    </div>
+    <section class="hero-section mb-4">
+        <h1 class="hero-title fw-bold">Complete Your<br>Booking Payment</h1>
+    </section>
 
+    <main class="container mb-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="payment-box">
+                    <h4 class="mb-3"><?php echo $HOTEL; ?> - <?php echo $CITY; ?></h4>
+                    <p>Guest: <?php echo $FULL_NAME; ?></p>
+                    <p>Total Amount: ₱<?php echo number_format($PRICE_PER_NIGHT * $days, 2); ?> for <?php echo $days; ?> night(s)</p>
+
+                    <form id="paymentForm">
+                        <input type="hidden" name="REGION" value="<?php echo $REGION; ?>">
+                        <input type="hidden" name="CITY" value="<?php echo $CITY; ?>">
+                        <input type="hidden" name="HOTEL" value="<?php echo $HOTEL; ?>">
+                        <input type="hidden" name="ROOM_TYPE" value="<?php echo $ROOM_TYPE; ?>">
+                        <input type="hidden" name="FULL_NAME" value="<?php echo $FULL_NAME; ?>">
+                        <input type="hidden" name="EMAIL" value="<?php echo $EMAIL; ?>">
+                        <input type="hidden" name="CHECK_IN" value="<?php echo $CHECK_IN; ?>">
+                        <input type="hidden" name="CHECK_OUT" value="<?php echo $CHECK_OUT; ?>">
+                        <input type="hidden" name="GUESTS" value="<?php echo $GUESTS; ?>">
+                        <input type="hidden" name="PRICE_PER_NIGHT" value="<?php echo $PRICE_PER_NIGHT; ?>">
+                        <input type="hidden" id="clientSecret" value="<?php echo $paymentIntent->client_secret; ?>">
+
+                        <div id="card-element" class="mb-3"></div>
+                        <div id="card-errors" class="text-danger mb-3" role="alert"></div>
+
+                        <button type="submit" class="btn btn-success w-100">Confirm Payment</button>
+                        <a href="javascript:history.back()" class="btn btn-secondary w-100 mt-2">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-dark text-light text-center p-3">
+        <p class="mb-1">2025 Japan Travel Booking</p>
+        <p class="mb-0">School project only</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 
 
 
     <!-- https://docs.stripe.com/js/initializing -->
-
     <script src="https://js.stripe.com/v3/"></script>
     <script>
         const stripe = Stripe('pk_test_51ScI2MP2ITnf2U5McxHaPK397EH7MdEgKSO2euzFvsIRyQxjNk98RnhV2dAbxLbMyc76LP4UTSQsA19d95dCMTfE00EahtdxrW');
@@ -369,7 +440,7 @@ try {
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             const clientSecret = document.getElementById('clientSecret').value;
-
+            
             // https://docs.stripe.com/payments/accept-a-payment
             const result = await stripe.confirmCardPayment(clientSecret, {
                 payment_method: {
