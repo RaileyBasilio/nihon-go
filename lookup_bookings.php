@@ -83,10 +83,7 @@ $row = sqlsrv_fetch_array($result_1, SQLSRV_FETCH_ASSOC);
 
     <nav class="navbar navbar-expand-lg" style="background-color: #ff3333;">
         <div class="container">
-            <a class="navbar-brand fw-bold nav-box" href="homepage.html">日本 nihon-GO</a>
-            <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+            <a class="navbar-brand fw-bold nav-box my-1" href="#">日本 nihon-GO</a>
         </div>
     </nav>
 
